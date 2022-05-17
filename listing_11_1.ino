@@ -5,33 +5,48 @@
 const int Max_dist = 300;
 
 const int left_ang = 160;
+const int between_left_and_front_ang = 125;
 const int front_ang = 90;
+const int between_right_and_front_ang = 55;
 const int right_ang = 20;
 
 const int time_90 = 390;
 const int time_180 = 750;
 const int time_for_start_moving = 100;
 const int time_for_1cm = 10;
-const int time_for_neck_rotation = 250;
+const int time_for_neck_step_rotation = 100;
 
 int stuck_counter = 0;
 int dist_front_prev = 0;
+
 Servo neck;
+int current_neck_angle = 90;
 
 void setup()
 {
   Sonar_init(13, 12);
 
-  neck.attach(15);
+  neck.attach(14);
 
   setup_motor_system(2, 3, 4, 5);
  
   _stop();
 }
 
+void rotate_neck(int angle) {
+  int rotation_step = current_neck_angle > angle
+    ? -10
+    : 10;
+    
+  while (current_neck_angle != angle) {
+    current_neck_angle += rotation_step;
+    neck.write(current_neck_angle);
+    delay(time_for_neck_step_rotation);
+  }
+}
+
 int measure_dist(int angle) {
-  neck.write(angle);
-  delay(time_for_neck_rotation);
+  rotate_neck(angle);
   return measure_dist_with_sonar(Max_dist);
 }
 
@@ -78,7 +93,7 @@ void loop()
       int Dist_left = measure_dist(left_ang);
       int Dist_right = measure_dist(right_ang);
     
-      neck.write(front_ang);
+      rotate_neck(front_ang); // to always look forward
     
       if ((Dist_left > Dist_front) && (Dist_left > Dist_right))
       {
