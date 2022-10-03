@@ -71,10 +71,10 @@ bool between(int a, int b, int accuracy) {
   return a - accuracy < b && b < a + accuracy;
 }
 
-bool potentially_stuck(int Dist_front) {
+bool potentially_stuck(int dist_front) {
   return 
-    Dist_front == Dist_front_prev
-    || between(Dist_front, Dist_front_prev, 5);
+    dist_front == Dist_front_prev
+    || between(dist_front, Dist_front_prev, 5);
 }
 
 void loop()
@@ -85,8 +85,8 @@ void loop()
     
   int dist_to_move = 0;  
 
-  int Dist_front = measure_dist(Front_ang);
-  if (potentially_stuck(Dist_front)) {
+  int dist_front = measure_dist(Front_ang);
+  if (potentially_stuck(dist_front)) {
     Stuck_counter++;
   }
   else {
@@ -99,8 +99,8 @@ void loop()
     return;
   }
 
-  if (Dist_front > 30) {
-    dist_to_move = Dist_front;
+  if (dist_front > 30) {
+    dist_to_move = dist_front;
   }
   else {
     int Dist_left = measure_dist(Left_ang);
@@ -108,13 +108,13 @@ void loop()
   
     rotate_neck(Front_ang); // to always look forward
   
-    if ((Dist_left > Dist_front) && (Dist_left > Dist_right))
+    if ((Dist_left > dist_front) && (Dist_left > Dist_right))
     {
       left();
       delay(Time_90);
       dist_to_move = Dist_left;
     }
-    else if (Dist_right > Dist_front)
+    else if (Dist_right > dist_front)
     {
       right();
       delay(Time_90);
@@ -132,5 +132,5 @@ void loop()
   forward();
   delay(time_for_move);
   
-  Dist_front_prev = Dist_front;
+  Dist_front_prev = dist_front;
 }
