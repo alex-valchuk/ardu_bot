@@ -20,9 +20,10 @@ const int Right_ang = 20;
 const int Time_90 = 390;
 const int Time_180 = 750;
 const int Time_for_start_moving = 100;
-const int Time_for_1cm = 10;
+const int Time_for_1cm = 5;
 const int Time_for_neck_step_rotation = 100;
 
+int Stuck_counter = 0;
 int Dist_front_prev = 0;
 
 Servo neck;
@@ -66,15 +67,19 @@ void turn_around() {
   delay(Time_90);
 }
 
+void go_backward() {
+  backward();
+  delay(Time_90);
+}
+
 bool between(int a, int b, int accuracy) {
   return a - accuracy < b && b < a + accuracy;
 }
 
 bool potentially_stuck(int dist_front) {
   return
-    dist_front < 5
-    && (dist_front == Dist_front_prev
-    || between(dist_front, Dist_front_prev, 5));
+    dist_front == Dist_front_prev
+    || between(dist_front, Dist_front_prev, 5);
 }
 
 void loop()
@@ -87,7 +92,19 @@ void loop()
 
   int dist_front = measure_dist(Front_ang);
   if (potentially_stuck(dist_front)) {
+    Stuck_counter++;
+  }
+  else {
+    Stuck_counter = 0;
+  }
+
+  if (Stuck_counter > 1) {
+    if (dist_front < 10) {
+      go_backward();
+    }
+    
     turn_around();
+    Stuck_counter = 0;
     return;
   }
 
