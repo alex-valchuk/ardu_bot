@@ -1,7 +1,7 @@
 #include "moments.h"
 #include "sonar.h"
 #include "neck.h"
-#include "chasis.h"
+#include "chasis_four_wheels.h"
 
 const int Max_dist = 300;
 
@@ -15,7 +15,7 @@ int Stuck_counter = 0;
 int Dist_front_prev = 0;
 
 neck _neck;
-chasis _chasis;
+chasis_four_wheels _chasis;
 
 void setup()
 {
@@ -25,8 +25,6 @@ void setup()
 
 
   _stop();
-}
-
 }
 
 int measure_dist_by_eyes(int angle) {
@@ -59,7 +57,7 @@ void loop()
 
   if (Stuck_counter > 1) {
     if (dist_front < 10) {
-      _chasis.go_backward();
+      _chasis.go_backward(20);
     }
     
     _chasis.turn_around();
@@ -92,9 +90,7 @@ void loop()
     }
   }
   
-  double dist = dist_to_move * 0.85;
-  int time_for_move = Time_for_start_moving + dist * Time_for_1cm;
-  _chasis.go_forward(time_for_move);
+  _chasis.go_forward(dist_to_move * 0.85); // 85% of measured distance to prevent collisions
   
   Dist_front_prev = dist_front;
 }
