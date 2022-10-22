@@ -14,22 +14,22 @@ const int Right_ang = 20;
 int Stuck_counter = 0;
 int Dist_front_prev = 0;
 
+sonar _sonar;
 neck _neck;
 chasis_four_wheels _chasis;
 
 void setup()
 {
-  Sonar_init(13, 12);
+  _sonar.init(13, 12);
   _neck.init(14);
   _chasis.init();
-
 
   _stop();
 }
 
 int measure_dist_by_eyes(int angle) {
   _neck.rotate(angle);
-  return measure_dist_with_sonar(Max_dist);
+  return _sonar.measure_dist_with_sonar(Max_dist);
 }
 
 bool between(int a, int b, int accuracy) {

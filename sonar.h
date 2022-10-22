@@ -1,32 +1,33 @@
-int Trig_pin;
-int Echo_pin;
-
-void Sonar_init(int trig, int echo)
-{
-   Trig_pin = trig;
-   Echo_pin = echo;
-
-   pinMode(Trig_pin, OUTPUT);
-   pinMode(Echo_pin, INPUT);
-}
-
-int measure_dist_with_sonar(unsigned long Limit)
-{
-  int Long_cm;
-  unsigned long Lim = Limit * 58;
-
-  digitalWrite(Trig_pin, LOW);
-  delayMicroseconds(2);
+class sonar {
+private:
+  int _trig_pin;
+  int _echo_pin;
+public:
+  void init(int trigPin, int echoPin) {
+     _trig_pin = trigPin;
+     _echo_pin = echoPin;
   
-  digitalWrite(Trig_pin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(Trig_pin, LOW);
-  
-  Long_cm = int(pulseIn(Echo_pin, HIGH, Lim) / 58);
-  
-  if(Long_cm == 0) {
-    return int(Limit);
+     pinMode(_trig_pin, OUTPUT);
+     pinMode(_echo_pin, INPUT);
   }
   
-  return Long_cm;
-}
+  int measure_dist_with_sonar(unsigned long limit) {
+    int long_cm;
+    unsigned long lim = limit * 58;
+  
+    digitalWrite(_trig_pin, LOW);
+    delayMicroseconds(2);
+    
+    digitalWrite(_trig_pin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(_trig_pin, LOW);
+    
+    long_cm = int(pulseIn(_echo_pin, HIGH, lim) / 58);
+    
+    if(long_cm == 0) {
+      return int(limit);
+    }
+    
+    return long_cm;
+  }
+};
