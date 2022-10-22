@@ -14,12 +14,13 @@ const int Right_ang = 20;
 int Stuck_counter = 0;
 int Dist_front_prev = 0;
 
+neck _neck;
 chasis _chasis;
 
 void setup()
 {
   Sonar_init(13, 12);
-  Neck_init(14);
+  _neck.init(14);
   _chasis.init();
 
 
@@ -29,7 +30,7 @@ void setup()
 }
 
 int measure_dist_by_eyes(int angle) {
-  rotate_neck(angle);
+  _neck.rotate(angle);
   return measure_dist_with_sonar(Max_dist);
 }
 
@@ -73,7 +74,7 @@ void loop()
     int dist_left = measure_dist_by_eyes(Left_ang);
     int dist_right = measure_dist_by_eyes(Right_ang);
   
-    rotate_neck(Front_ang); // to always look forward
+    _neck.rotate(Front_ang); // to always look forward
   
     if ((dist_left > dist_front) && (dist_left > dist_right))
     {
