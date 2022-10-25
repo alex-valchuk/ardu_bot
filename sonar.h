@@ -11,7 +11,7 @@ public:
      pinMode(_echo_pin, INPUT);
   }
   
-  int measure_dist_with_sonar(unsigned long limit) {
+  int measure_dist(unsigned long limit) {
     int long_cm;
     unsigned long lim = limit * 58;
   
