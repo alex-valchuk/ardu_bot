@@ -1,3 +1,6 @@
+/*
+ * Describes the baseline contract for controlling the chasis of the robot.
+ */
 class chasis {
 public:
   virtual void init();
