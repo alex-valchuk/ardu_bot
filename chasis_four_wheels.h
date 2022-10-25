@@ -1,5 +1,13 @@
-#include "motor.h"
+/* 
+ * Encapsulates the control of the chasis based on 4 independent wheels (1 motor per wheel).
+ * Front and rear wheels are spinning to the oposite sides, therefore we can go in different directions.
+ */
 #include "chasis.h"
+#include "motor.h"
+
+// The pins our motors are connected to.
+const int front_left_motor_pin = 2, front_right_motor_pin = 7;
+const int rear_left_motor_pin = 4, rear_right_motor_pin = 8;
 
 // The speed of the motor depends on the value that was passed to the analogWrite function.
 // Remember the value of 'Motors_speed' can be between 0 and 255. 
@@ -8,15 +16,27 @@ const int Left_motors_speed_pin = 3;
 const int Right_motors_speed_pin = 6;
 const int Motors_speed = 180;
 
-// implements the control of the chasis based on 4 independent wheels (motor per wheel)
+motor front_left_motor, front_right_motor;
+motor rear_left_motor, rear_right_motor;
+
 class chasis_four_wheels : public chasis {
 public:
-  // sets up the used pins
+  // Sets up the used pins for motors and for their speed.
   void init() {
-    setup_motor_system(2, 4, 7, 8);
+    front_left_motor.init(front_left_motor_pin);
+    front_right_motor.init(front_right_motor_pin);
+    rear_left_motor.init(rear_left_motor_pin);
+    rear_right_motor.init(rear_right_motor_pin);
     
     pinMode(Left_motors_speed_pin, OUTPUT);
     pinMode(Right_motors_speed_pin, OUTPUT);
+  }
+
+  void stand_still() {
+    front_left_motor.idle();
+    front_right_motor.idle();
+    rear_left_motor.idle();
+    rear_right_motor.idle();
   }
   
   void go_forward(double distance) {
@@ -93,5 +113,61 @@ private:
 
   int calculate_time_for_direct_move(double distance) {
     return Time_for_start_moving + distance * Time_for_1cm;
+  }
+  
+  void forward() {
+    front_left_motor.spin();
+    front_right_motor.spin();
+    rear_left_motor.idle();
+    rear_right_motor.idle();
+  }
+  
+  void forward_left() {
+    front_left_motor.idle();
+    front_right_motor.spin();
+    rear_left_motor.idle();
+    rear_right_motor.idle();
+  }
+  
+  void forward_right() {
+    front_left_motor.spin();
+    front_right_motor.idle();
+    rear_left_motor.idle();
+    rear_right_motor.idle();
+  }
+  
+  void left() {
+    front_left_motor.idle();
+    front_right_motor.spin();
+    rear_left_motor.spin();
+    rear_right_motor.idle();
+  }
+  
+  void right() {
+    front_left_motor.spin();
+    front_right_motor.idle();
+    rear_left_motor.idle();
+    rear_right_motor.spin();
+  }
+  
+  void backward() {
+    front_left_motor.idle();
+    front_right_motor.idle();
+    rear_left_motor.spin();
+    rear_right_motor.spin();
+  }
+  
+  void backward_left() {
+    front_left_motor.spin();
+    front_right_motor.idle();
+    rear_left_motor.idle();
+    rear_right_motor.spin();
+  }
+  
+  void backward_right() {
+    front_left_motor.idle();
+    front_right_motor.spin();
+    rear_left_motor.spin();
+    rear_right_motor.idle();
   }
 };

@@ -24,7 +24,7 @@ void setup()
   _neck.init(14);
   _chasis.init();
 
-  _stop();
+  _chasis.stand_still();
 }
 
 int measure_dist_by_eyes(int angle) {
@@ -44,7 +44,7 @@ bool potentially_stuck(int dist_front) {
 
 void loop()
 {
-  _stop();
+  _chasis.stand_still();
   int dist_to_move = 0;  
 
   int dist_front = measure_dist_by_eyes(Front_ang);

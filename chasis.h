@@ -1,6 +1,7 @@
 class chasis {
 public:
   virtual void init();
+  virtual void stand_still();
   virtual void go_forward(double distance);
   virtual void go_backward(double distance);
   virtual void go_left();
