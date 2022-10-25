@@ -5,20 +5,6 @@
 #include "chasis.h"
 #include "motor.h"
 
-// The pins our motors are connected to.
-const int front_left_motor_pin = 2, front_right_motor_pin = 7;
-const int rear_left_motor_pin = 4, rear_right_motor_pin = 8;
-
-// The speed of the motor depends on the value that was passed to the analogWrite function.
-// Remember the value of 'Motors_speed' can be between 0 and 255. 
-// If you pass 0, then the motors will stop and if you pass 255 then they will run at full speed.
-const int Left_motors_speed_pin = 3;
-const int Right_motors_speed_pin = 6;
-const int Motors_speed = 180;
-
-motor front_left_motor, front_right_motor;
-motor rear_left_motor, rear_right_motor;
-
 class chasis_four_wheels : public chasis {
 public:
   // Sets up the used pins for motors and for their speed.
@@ -105,7 +91,22 @@ public:
     right();
     delay(Time_90);
   }
+
 private:
+  // The pins our motors are connected to.
+  const int front_left_motor_pin = 2, front_right_motor_pin = 7;
+  const int rear_left_motor_pin = 4, rear_right_motor_pin = 8;
+  
+  // The speed of the motor depends on the value that was passed to the analogWrite function.
+  // Remember the value of 'Motors_speed' can be between 0 and 255. 
+  // If you pass 0, then the motors will stop and if you pass 255 then they will run at full speed.
+  const int Left_motors_speed_pin = 3;
+  const int Right_motors_speed_pin = 6;
+  const int Motors_speed = 180;
+  
+  motor front_left_motor, front_right_motor;
+  motor rear_left_motor, rear_right_motor;
+
   void set_speed() {
     analogWrite(Left_motors_speed_pin, Motors_speed);
     analogWrite(Right_motors_speed_pin, Motors_speed);
