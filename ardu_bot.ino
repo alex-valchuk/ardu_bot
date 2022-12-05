@@ -11,8 +11,8 @@ chasis_four_wheels _chasis;
 void setup()
 {
   _distance_meter.init();
+  
   _chasis.init();
-
   _chasis.stand_still();
 }
 
