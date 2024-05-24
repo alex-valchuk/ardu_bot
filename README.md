@@ -1,5 +1,5 @@
 **Introduction**\
-This is a working firmware for Arduino UNO robot that I made following the [Michail Momot](https://vk.com/momotmvu) book:\
+This is a refactored firmware for Arduino UNO robot that I made following the [Michail Momot](https://vk.com/momotmvu) book:\
 https://www.litres.ru/book/mihail-momot/mobilnye-roboty-na-baze-arduino-23878269/
 
 The main (though extremely simple) logic is located within ardu_bot.ino file.
