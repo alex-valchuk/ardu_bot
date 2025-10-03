@@ -5,13 +5,13 @@
  */
 #include "distance_meter.h"
 #include "sonar.h"
-#include "neck.h"
+//#include "neck.h"
 
 class distance_meter_sonar : public distance_meter {
 public:
   void init() {
     _sonar.init(Sonar_trig_pin, Sonar_echo_pin);
-    _neck.init(Neck_pin);
+    //_neck.init(Neck_pin);
   }
   
   int get_front() {
@@ -32,16 +32,16 @@ public:
 
 private:
   int measure_dist(int angle) {
-    _neck.rotate(angle);
+    //_neck.rotate(angle);
     return _sonar.measure_dist(Max_dist);
   }
 
   int look_ahead() {
-    _neck.rotate(Front_ang);
+    //_neck.rotate(Front_ang);
   }
 
   sonar _sonar;
-  neck _neck;
+  //neck _neck;
   const int Sonar_trig_pin = 13;
   const int Sonar_echo_pin = 12;
   const int Neck_pin = 14;

@@ -26,7 +26,7 @@ public:
   }
   
   void go_forward(double distance) {
-    set_speed();
+    set_normal_speed();
     
     int time_for_move = calculate_time_for_direct_move(distance);
     forward();
@@ -34,62 +34,75 @@ public:
   }
   
   void go_backward(double distance) {
-    set_speed();
-    
+    set_max_speed();
+
     int time_for_move = calculate_time_for_direct_move(distance);
     backward();
     delay(time_for_move);
+    
+    set_normal_speed();
   }
   
   void go_left() {
-    set_speed();
+    set_normal_speed();
     
     left();
     delay(Time_for_10cm);
   }
   
   void go_right() {
-    set_speed();
+    set_normal_speed();
     
     right();
     delay(Time_for_10cm);
   }
   
   void go_forward_left() {
-    set_speed();
+    set_normal_speed();
     
     forward_left();
     delay(Time_90 / 9);
   }
   
   void go_forward_right() {
-    set_speed();
+    set_normal_speed();
     
     forward_right();
     delay(Time_90 / 9);
   }
   
   void turn_left() {
-    set_speed();
+    set_normal_speed();
     
     left();
-    delay(Time_180);
+    delay(Time_90);
   }
   
   void turn_right() {
-    set_speed();
+    set_normal_speed();
     
     right();
-    delay(Time_180);
+    delay(Time_90);
   }
 
   void turn_around() {
-    set_speed();
+    set_normal_speed();
     
     backward();
     delay(Time_90);
     right();
     delay(Time_90);
+  }
+
+  void turn_around_hard() {
+    set_max_speed();
+    
+    backward();
+    delay(Time_90);
+    right();
+    delay(Time_90);
+
+    set_normal_speed();
   }
 
 private:
@@ -107,7 +120,12 @@ private:
   motor front_left_motor, front_right_motor;
   motor rear_left_motor, rear_right_motor;
 
-  void set_speed() {
+  void set_normal_speed() {
+    analogWrite(Left_motors_speed_pin, Motors_speed);
+    analogWrite(Right_motors_speed_pin, Motors_speed);
+  }
+
+  void set_max_speed() {
     analogWrite(Left_motors_speed_pin, Motors_speed);
     analogWrite(Right_motors_speed_pin, Motors_speed);
   }
