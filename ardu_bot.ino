@@ -1,13 +1,17 @@
 #include "moments.h"
 //#include "movement_algorithm_with_neck.h"
+//#include "movement_algorithm_test.h"
+//#include "movement_algorithm_sonar_test.h"
 #include "movement_algorithm_bobic.h"
 
 //movement_algorithm_with_neck _movement_algorithm;
+//movement_algorithm_test _movement_algorithm;
+//movement_algorithm_sonar_test _movement_algorithm;
 movement_algorithm_bobic _movement_algorithm;
 
 void setup()
 {
-  Serial.begin(9600);
+  //Serial.begin(9600);
 
   _movement_algorithm.init();
 }

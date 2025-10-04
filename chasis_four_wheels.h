@@ -14,8 +14,10 @@ public:
     rear_left_motor.init(rear_left_motor_pin);
     rear_right_motor.init(rear_right_motor_pin);
     
-    pinMode(Left_motors_speed_pin, OUTPUT);
-    pinMode(Right_motors_speed_pin, OUTPUT);
+    pinMode(Left_motor_speed_pin, OUTPUT);
+    pinMode(Right_motor_speed_pin, OUTPUT);
+
+    set_normal_speed();
   }
 
   void stand_still() {
@@ -26,83 +28,62 @@ public:
   }
   
   void go_forward(double distance) {
-    set_normal_speed();
-    
     int time_for_move = calculate_time_for_direct_move(distance);
     forward();
     delay(time_for_move);
   }
   
   void go_backward(double distance) {
-    set_max_speed();
-
     int time_for_move = calculate_time_for_direct_move(distance);
     backward();
     delay(time_for_move);
-    
-    set_normal_speed();
   }
   
   void go_left() {
-    set_normal_speed();
-    
     left();
     delay(Time_for_10cm);
   }
   
   void go_right() {
-    set_normal_speed();
-    
     right();
     delay(Time_for_10cm);
   }
   
   void go_forward_left() {
-    set_normal_speed();
-    
     forward_left();
     delay(Time_90 / 9);
   }
   
   void go_forward_right() {
-    set_normal_speed();
-    
     forward_right();
     delay(Time_90 / 9);
   }
   
   void turn_left() {
-    set_normal_speed();
-    
     left();
     delay(Time_90);
   }
   
   void turn_right() {
-    set_normal_speed();
-    
     right();
     delay(Time_90);
   }
 
   void turn_around() {
-    set_normal_speed();
-    
     backward();
     delay(Time_90);
     right();
     delay(Time_90);
   }
 
-  void turn_around_hard() {
-    set_max_speed();
-    
-    backward();
-    delay(Time_90);
-    right();
-    delay(Time_90);
+  void set_normal_speed() {
+    analogWrite(Left_motor_speed_pin, Normal_Speed);
+    analogWrite(Right_motor_speed_pin, Normal_Speed);
+  }
 
-    set_normal_speed();
+  void set_max_speed() {
+    analogWrite(Left_motor_speed_pin, Max_Speed);
+    analogWrite(Right_motor_speed_pin, Max_Speed);
   }
 
 private:
@@ -111,24 +92,19 @@ private:
   const int rear_left_motor_pin = 4, rear_right_motor_pin = 8;
   
   // The speed of the motor depends on the value that was passed to the analogWrite function.
-  // Remember the value of 'Motors_speed' can be between 0 and 255. 
+  // Remember the value of 'Normal_Speed' can be between 0 and 255. 
   // If you pass 0, then the motors will stop and if you pass 255 then they will run at full speed.
-  const int Left_motors_speed_pin = 3;
-  const int Right_motors_speed_pin = 6;
-  const int Motors_speed = 180;
+  const int Left_motor_speed_pin = 3;
+  const int Right_motor_speed_pin = 6;
+  const int Normal_Speed = 180;
+  const int Max_Speed = 255;
+
+  const int Time_for_start_moving = 100;
+  const int Time_for_1cm = 5;
+  const int Time_for_10cm = 220;
   
   motor front_left_motor, front_right_motor;
   motor rear_left_motor, rear_right_motor;
-
-  void set_normal_speed() {
-    analogWrite(Left_motors_speed_pin, Motors_speed);
-    analogWrite(Right_motors_speed_pin, Motors_speed);
-  }
-
-  void set_max_speed() {
-    analogWrite(Left_motors_speed_pin, Motors_speed);
-    analogWrite(Right_motors_speed_pin, Motors_speed);
-  }
 
   int calculate_time_for_direct_move(double distance) {
     return Time_for_start_moving + distance * Time_for_1cm;

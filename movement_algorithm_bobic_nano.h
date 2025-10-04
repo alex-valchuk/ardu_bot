@@ -3,8 +3,8 @@
  */
 #include "movement_algorithm.h"
 #include "distance_meter_sonar.h"
-#include "chasis_four_wheels.h"
-//#include "chasis_two_front_wheels.h"
+//#include "chasis_four_wheels.h"
+#include "chasis_two_front_wheels.h"
 //#include "neck.h"
 
 class movement_algorithm_bobic : public movement_algorithm {
@@ -58,7 +58,7 @@ public:
       
       // turn around hard
       _chasis.turn_around();
-      _chasis.set_normal_speed();
+      //_chasis.set_normal_speed();
       Stuck_counter = 0;
       return;
     }
@@ -88,6 +88,6 @@ private:
   bool is_right_turn = true;
 
   distance_meter_sonar _distance_meter;
-  //chasis_two_front_wheels _chasis;
-  chasis_four_wheels _chasis;
+  chasis_two_front_wheels _chasis;
+  //chasis_four_wheels _chasis;
 };

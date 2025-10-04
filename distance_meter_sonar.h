@@ -15,7 +15,10 @@ public:
   }
   
   int get_front() {
-    return measure_dist(Front_ang);
+    int dist = measure_dist(Front_ang);
+    if (dist <= 0 || dist > Max_dist) {
+      return 0;
+    }
   }
   
   int get_left() {

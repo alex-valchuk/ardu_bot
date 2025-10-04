@@ -2,6 +2,7 @@ class sonar {
 private:
   int _trig_pin;
   int _echo_pin;
+  int _last_recorded_dist = 10;
 public:
   void init(int trigPin, int echoPin) {
      _trig_pin = trigPin;
@@ -24,10 +25,13 @@ public:
     
     long_cm = int(pulseIn(_echo_pin, HIGH, lim) / 58);
     
-    if(long_cm == 0) {
-      return int(limit);
+    if(long_cm <= 0 || long_cm > limit) {
+      //sometimes it returns > 50_000 value which is impossible
+       //let's consider the distance became smaller
+      return _last_recorded_dist - _last_recorded_dist * 0.3;
     }
     
-    return long_cm;
+    _last_recorded_dist = int(long_cm);
+    return _last_recorded_dist;
   }
 };
