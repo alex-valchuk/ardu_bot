@@ -2,7 +2,10 @@ class sonar {
 private:
   int _trig_pin;
   int _echo_pin;
-  int _last_recorded_dist = 10;
+  int _last_recorded_dist = 0;
+
+  profiler _profiler;
+
 public:
   void init(int trigPin, int echoPin) {
      _trig_pin = trigPin;
@@ -27,11 +30,14 @@ public:
     
     if(long_cm <= 0 || long_cm > limit) {
       //sometimes it returns > 50_000 value which is impossible
-       //let's consider the distance became smaller
-      return _last_recorded_dist - _last_recorded_dist * 0.3;
+      //let's consider the distance became smaller
+      int fallback_distance = _last_recorded_dist - _last_recorded_dist * 0.3;
+      _profiler.print_status("fallback_distance", fallback_distance);
+      return fallback_distance;
     }
     
     _last_recorded_dist = int(long_cm);
+    _profiler.print_status("_last_recorded_dist", _last_recorded_dist);
     return _last_recorded_dist;
   }
 };

@@ -3,7 +3,7 @@
  * Front wheels are spinning to the oposite sides, therefore we can go in different directions.
  */
 #include "chasis.h"
-#include "motor_2_pins.h"
+#include "motor.h"
 
 class chasis_two_front_wheels : public chasis {
 public:
@@ -95,10 +95,10 @@ private:
   const int Max_speed = 200;//180 for two wheels is to much. Tests showed that 90 is good.
 
   const int Time_for_start_moving = 100;
-  const int Time_for_1cm = 20;
-  const int Time_for_10cm = 1440;
+  const int Time_for_1cm = 5;
+  const int Time_for_10cm = 220;
   
-  motor_2_pins front_left_motor, front_right_motor;
+  motor front_left_motor, front_right_motor;
 
   int calculate_time_for_direct_move(double distance) {
     return Time_for_start_moving + distance * Time_for_1cm;
@@ -120,13 +120,13 @@ private:
   }
   
   void left() {
-    front_left_motor.idle();
+    front_left_motor.spinBackward();
     front_right_motor.spinForward();
   }
   
   void right() {
     front_left_motor.spinForward();
-    front_right_motor.idle();
+    front_right_motor.spinBackward();
   }
   
   void backward() {

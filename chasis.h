@@ -14,7 +14,4 @@ public:
   virtual void turn_left();
   virtual void turn_right();
   virtual void turn_around();
-
-  virtual void set_normal_speed();
-  virtual void set_max_speed();
 };
